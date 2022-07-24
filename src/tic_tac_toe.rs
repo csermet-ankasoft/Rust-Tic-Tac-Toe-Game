@@ -70,3 +70,32 @@ pub fn game_console_write(game_board_shapes: &Vec<&str>){
         println!("{}",console_text[i]);
     }
 }
+
+pub enum game_move_result{
+    Ok,
+    Wrong_input,
+    Mismatched_area,
+}
+
+pub fn game_move<'a>(game_board_shapes: &mut Vec<&'a str>, player_shape: &'a str) -> game_move_result{
+    let input_text = get_input();
+    //Number Or Not Check
+    let number = match input_text.parse::<i32>() {
+        Ok(n) => (n),
+        Err(..) => (-1) ,
+    };
+
+    if number == -1 {
+        return game_move_result::Wrong_input;
+    }
+    if number<10 && number>0 && game_board_shapes[(number-1) as usize] == " "
+    {
+        game_board_shapes[(number-1) as usize] = player_shape;
+        return game_move_result::Ok;
+    }
+    return game_move_result::Mismatched_area;
+}
+
+pub fn computer_turn(game_board_shapes: &mut Vec<&str>){
+
+}
